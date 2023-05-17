@@ -167,6 +167,10 @@ func (c *Client) Connect(appKey string) error {
 	}
 }
 
+func (c *Client) GetSocketID() string {
+	return c.socketID
+}
+
 func (c *Client) isConnected() bool {
 	c.mutex.RLock()
 	defer c.mutex.RUnlock()
