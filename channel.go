@@ -259,6 +259,20 @@ func (c *privateChannel) Subscribe(opts ...SubscribeOption) error {
 		opt(o)
 	}
 
+	if c.client.AuthProvider != nil {
+		response, err := c.client.AuthProvider(c.client.socketID, c.name)
+		if err != nil {
+			return err
+		}
+		chanData := channelData{}
+		if err = json.Unmarshal(response, &chanData); err != nil {
+			return err
+		}
+		chanData.Channel = c.name
+
+		return c.sendSubscriptionRequest(chanData, o)
+	}
+
 	body := url.Values{}
 	body.Set("socket_id", c.client.socketID)
 	body.Set("channel_name", c.name)

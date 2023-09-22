@@ -60,6 +60,8 @@ type Client struct {
 	AuthParams url.Values
 	// Additional HTTP headers to be sent in an authentication request.
 	AuthHeaders http.Header
+	// Additional Autonomous authorization of services
+	AuthProvider func(socketID string, channelName string) ([]byte, error)
 
 	// If provided, errors that occur while receiving messages and errors emitted
 	// by Pusher will be sent to this channel.
